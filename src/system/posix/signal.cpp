@@ -88,6 +88,7 @@ using namespace vm;
 
 void handleSignal(int signal, siginfo_t*, void* context)
 {
+#if 0
   ucontext_t* c = static_cast<ucontext_t*>(context);
 
   void* ip = reinterpret_cast<void*>(IP_REGISTER(c));
@@ -145,6 +146,7 @@ void handleSignal(int signal, siginfo_t*, void* context)
   default:
     crash();
   }
+#endif
 }
 
 }  // namespace posix

@@ -18,6 +18,12 @@
 #include "jni.h"
 #include "jni-util.h"
 
+#include <jni_support.h>
+
+//#ifdef __KOS__
+#define SKIP_OPERATOR_NEW
+//#endif
+
 #ifdef PLATFORM_WINDOWS
 
 #define UNICODE
@@ -238,6 +244,7 @@ extern "C" JNIEXPORT jstring JNICALL
   // todo
   return path;
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_toCanonicalPath)
 
 extern "C" JNIEXPORT jstring JNICALL
     Java_java_io_File_toAbsolutePath(JNIEnv* e UNUSED, jclass, jstring path)
@@ -290,6 +297,7 @@ extern "C" JNIEXPORT jstring JNICALL
   return result;
 #endif
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_toAbsolutePath)
 
 extern "C" JNIEXPORT jlong JNICALL
     Java_java_io_File_length(JNIEnv* e, jclass, jstring path)
@@ -344,6 +352,7 @@ extern "C" JNIEXPORT jlong JNICALL
 
   return 0;
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_length)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_io_File_mkdir(JNIEnv* e, jclass, jstring path)
@@ -359,6 +368,7 @@ extern "C" JNIEXPORT void JNICALL
     releaseChars(e, path, chars);
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_mkdir)
 
 extern "C" JNIEXPORT jboolean JNICALL
     Java_java_io_File_createNewFile(JNIEnv* e, jclass, jstring path)
@@ -381,6 +391,7 @@ extern "C" JNIEXPORT jboolean JNICALL
   }
   return result;
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_createNewFile)
 
 extern "C" JNIEXPORT void JNICALL
 Java_java_io_File_delete(JNIEnv* e, jclass, jstring path)
@@ -403,6 +414,7 @@ Java_java_io_File_delete(JNIEnv* e, jclass, jstring path)
     releaseChars(e, path, chars);
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_delete)
 
 extern "C" JNIEXPORT jboolean JNICALL
     Java_java_io_File_canRead(JNIEnv* e, jclass, jstring path)
@@ -415,6 +427,7 @@ extern "C" JNIEXPORT jboolean JNICALL
   }
   return false;
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_canRead)
 
 extern "C" JNIEXPORT jboolean JNICALL
     Java_java_io_File_canWrite(JNIEnv* e, jclass, jstring path)
@@ -427,6 +440,7 @@ extern "C" JNIEXPORT jboolean JNICALL
   }
   return false;
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_canWrite)
 
 extern "C" JNIEXPORT jboolean JNICALL
     Java_java_io_File_canExecute(JNIEnv* e, jclass, jstring path)
@@ -439,6 +453,7 @@ extern "C" JNIEXPORT jboolean JNICALL
   }
   return false;
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_canExecute)
 
 #ifndef PLATFORM_WINDOWS
 extern "C" JNIEXPORT jboolean JNICALL
@@ -480,6 +495,7 @@ extern "C" JNIEXPORT jboolean JNICALL
   }
   return false;
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_setExecutable)
 
 #else  // ifndef PLATFORM_WINDOWS
 
@@ -492,6 +508,7 @@ extern "C" JNIEXPORT jboolean JNICALL
 {
   return executable;
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_setExecutable)
 
 #endif
 
@@ -515,6 +532,7 @@ extern "C" JNIEXPORT jboolean JNICALL
     return false;
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_rename)
 
 extern "C" JNIEXPORT jboolean JNICALL
     Java_java_io_File_isDirectory(JNIEnv* e, jclass, jstring path)
@@ -530,6 +548,7 @@ extern "C" JNIEXPORT jboolean JNICALL
     return false;
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_isDirectory)
 
 extern "C" JNIEXPORT jboolean JNICALL
     Java_java_io_File_isFile(JNIEnv* e, jclass, jstring path)
@@ -545,6 +564,7 @@ extern "C" JNIEXPORT jboolean JNICALL
     return false;
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_isFile)
 
 extern "C" JNIEXPORT jboolean JNICALL
     Java_java_io_File_exists(JNIEnv* e, jclass, jstring path)
@@ -558,6 +578,7 @@ extern "C" JNIEXPORT jboolean JNICALL
     return false;
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_exists)
 
 extern "C" JNIEXPORT jlong JNICALL
     Java_java_io_File_lastModified(JNIEnv* e, jclass, jstring path)
@@ -619,6 +640,7 @@ extern "C" JNIEXPORT jlong JNICALL
 
   return 0;
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_lastModified)
 
 #ifdef PLATFORM_WINDOWS
 
@@ -657,6 +679,7 @@ extern "C" JNIEXPORT jlong JNICALL
     return 0;
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_openDir)
 
 extern "C" JNIEXPORT jstring JNICALL
     Java_java_io_File_readDir(JNIEnv* e, jclass, jlong handle)
@@ -676,12 +699,14 @@ extern "C" JNIEXPORT jstring JNICALL
     }
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_readDir)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_io_File_closeDir(JNIEnv*, jclass, jlong handle)
 {
   reinterpret_cast<Directory*>(handle)->dispose();
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_closeDir)
 
 #else  // not PLATFORM_WINDOWS
 
@@ -697,6 +722,7 @@ extern "C" JNIEXPORT jlong JNICALL
     return 0;
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_openDir)
 
 extern "C" JNIEXPORT jstring JNICALL
     Java_java_io_File_readDir(JNIEnv* e, jclass, jlong handle)
@@ -718,6 +744,7 @@ extern "C" JNIEXPORT jstring JNICALL
   }
   return NULL;
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_readDir)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_io_File_closeDir(JNIEnv*, jclass, jlong handle)
@@ -726,6 +753,7 @@ extern "C" JNIEXPORT void JNICALL
     closedir(reinterpret_cast<DIR*>(handle));
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_io_File_closeDir)
 
 #endif  // not PLATFORM_WINDOWS
 
@@ -741,6 +769,7 @@ extern "C" JNIEXPORT jint JNICALL
     return -1;
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_io_FileInputStream_open)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_io_FileInputStream_read__I(JNIEnv* e, jclass, jint fd)
@@ -753,6 +782,7 @@ extern "C" JNIEXPORT jint JNICALL
     return data & 0xff;
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_io_FileInputStream_read__I)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_io_FileInputStream_read__I_3BII(JNIEnv* e,
@@ -776,12 +806,14 @@ extern "C" JNIEXPORT jint JNICALL
 
   return r;
 }
+JNI_SUPPORT_REGISTER(Java_java_io_FileInputStream_read__I_3BII)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_io_FileInputStream_close(JNIEnv* e, jclass, jint fd)
 {
   doClose(e, fd);
 }
+JNI_SUPPORT_REGISTER(Java_java_io_FileInputStream_close)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_io_FileOutputStream_open(JNIEnv* e,
@@ -801,6 +833,7 @@ extern "C" JNIEXPORT jint JNICALL
     return -1;
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_io_FileOutputStream_open)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_io_FileOutputStream_write__II(JNIEnv* e, jclass, jint fd, jint c)
@@ -808,6 +841,7 @@ extern "C" JNIEXPORT void JNICALL
   jbyte data = c;
   doWrite(e, fd, &data, 1);
 }
+JNI_SUPPORT_REGISTER(Java_java_io_FileOutputStream_write__II)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_io_FileOutputStream_write__I_3BII(JNIEnv* e,
@@ -831,12 +865,14 @@ extern "C" JNIEXPORT void JNICALL
 
   free(data);
 }
+JNI_SUPPORT_REGISTER(Java_java_io_FileOutputStream_write__I_3BII)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_io_FileOutputStream_close(JNIEnv* e, jclass, jint fd)
 {
   doClose(e, fd);
 }
+JNI_SUPPORT_REGISTER(Java_java_io_FileOutputStream_close)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_io_RandomAccessFile_open(JNIEnv* e,
@@ -893,6 +929,7 @@ extern "C" JNIEXPORT void JNICALL
     e->SetLongArrayRegion(result, 1, 1, &length);
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_io_RandomAccessFile_open)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_io_RandomAccessFile_readBytes(JNIEnv* e,
@@ -943,6 +980,7 @@ extern "C" JNIEXPORT jint JNICALL
 
   return (jint)bytesRead;
 }
+JNI_SUPPORT_REGISTER(Java_java_io_RandomAccessFile_readBytes)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_io_RandomAccessFile_writeBytes(JNIEnv* e,
@@ -993,6 +1031,7 @@ extern "C" JNIEXPORT jint JNICALL
 
   return (jint)bytesWritten;
 }
+JNI_SUPPORT_REGISTER(Java_java_io_RandomAccessFile_writeBytes)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_io_RandomAccessFile_close(JNIEnv* /* e*/, jclass, jlong peer)
@@ -1005,3 +1044,4 @@ extern "C" JNIEXPORT void JNICALL
   CloseHandle(hFile);
 #endif
 }
+JNI_SUPPORT_REGISTER(Java_java_io_RandomAccessFile_close)

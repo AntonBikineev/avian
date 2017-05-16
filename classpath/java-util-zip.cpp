@@ -15,6 +15,8 @@
 #include "jni.h"
 #include "jni-util.h"
 
+#include <jni_support.h>
+
 extern "C" JNIEXPORT jlong JNICALL
     Java_java_util_zip_Inflater_make(JNIEnv* e, jclass, jboolean nowrap)
 {
@@ -35,6 +37,7 @@ extern "C" JNIEXPORT jlong JNICALL
 
   return reinterpret_cast<jlong>(s);
 }
+JNI_SUPPORT_REGISTER(Java_java_util_zip_Inflater_make)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_util_zip_Inflater_dispose(JNIEnv*, jclass, jlong peer)
@@ -43,6 +46,7 @@ extern "C" JNIEXPORT void JNICALL
   inflateEnd(s);
   free(s);
 }
+JNI_SUPPORT_REGISTER(Java_java_util_zip_Inflater_dispose)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_util_zip_Inflater_inflate(JNIEnv* e,
@@ -90,6 +94,7 @@ extern "C" JNIEXPORT void JNICALL
 
   e->SetIntArrayRegion(results, 0, 3, resultArray);
 }
+JNI_SUPPORT_REGISTER(Java_java_util_zip_Inflater_inflate)
 
 extern "C" JNIEXPORT jlong JNICALL
     Java_java_util_zip_Deflater_make(JNIEnv* e,
@@ -114,6 +119,7 @@ extern "C" JNIEXPORT jlong JNICALL
 
   return reinterpret_cast<jlong>(s);
 }
+JNI_SUPPORT_REGISTER(Java_java_util_zip_Deflater_make)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_util_zip_Deflater_dispose(JNIEnv*, jclass, jlong peer)
@@ -122,6 +128,7 @@ extern "C" JNIEXPORT void JNICALL
   deflateEnd(s);
   free(s);
 }
+JNI_SUPPORT_REGISTER(Java_java_util_zip_Deflater_dispose)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_util_zip_Deflater_deflate(JNIEnv* e,
@@ -170,3 +177,4 @@ extern "C" JNIEXPORT void JNICALL
 
   e->SetIntArrayRegion(results, 0, 3, resultArray);
 }
+JNI_SUPPORT_REGISTER(Java_java_util_zip_Deflater_deflate)

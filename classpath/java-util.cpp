@@ -12,6 +12,8 @@
 #include "jni.h"
 #include "jni-util.h"
 
+#include <jni_support.h>
+
 namespace {
 
 #if (!defined PLATFORM_WINDOWS) || (defined _MSC_VER)
@@ -56,3 +58,4 @@ extern "C" JNIEXPORT jstring JNICALL
   return e->NewStringUTF(buffer);
 #endif
 }
+JNI_SUPPORT_REGISTER(Java_java_util_Date_toString)

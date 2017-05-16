@@ -57,6 +57,8 @@ typedef struct ucontext {
 #include <avian/system/memory.h>
 #include <avian/util/math.h>
 
+#include <jni_support.h>
+
 #define ACQUIRE(x) MutexResource MAKE_NAME(mutexResource_)(x)
 
 using namespace vm;
@@ -578,7 +580,8 @@ class MySystem : public System {
 
     virtual void* resolve(const char* function)
     {
-      return dlsym(p, function);
+      return jni_support::native_registry::get().
+          get_method(function);
     }
 
     virtual const char* name()
@@ -602,8 +605,10 @@ class MySystem : public System {
         fprintf(stderr, "close %p\n", p);
       }
 
+#if 0
       if (not mainExecutable)
         dlclose(p);
+#endif
 
       if (next_) {
         next_->disposeAll();
@@ -877,7 +882,7 @@ class MySystem : public System {
     if (isMain) {
       pathOfExecutable(this, &name, &nameLength);
     }
-    void* p = dlopen(name, RTLD_LAZY | RTLD_LOCAL);
+    void* p = (void*)1;//dlopen(name, RTLD_LAZY | RTLD_LOCAL);
 
     if (p) {
       if (Verbose) {
@@ -964,6 +969,7 @@ class MySystem : public System {
 
 void handleSignal(int signal, siginfo_t*, void* context)
 {
+#if 0
   ucontext_t* c = static_cast<ucontext_t*>(context);
 
   void* ip = reinterpret_cast<void*>(IP_REGISTER(c));
@@ -988,6 +994,7 @@ void handleSignal(int signal, siginfo_t*, void* context)
   default:
     abort();
   }
+#endif
 }
 
 }  // namespace

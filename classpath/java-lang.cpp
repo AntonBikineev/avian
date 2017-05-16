@@ -88,6 +88,8 @@
 #define M_E		2.7182818284590452354
 #endif  // M_E
 
+#include <jni_support.h>
+
 namespace {
 
 void add(JNIEnv* e, jobjectArray array, unsigned index, const char* format, ...)
@@ -472,6 +474,7 @@ extern "C" JNIEXPORT void JNICALL
   throwNew(e, "java/io/Exception", strdup("Not supported on WinRT/WinPhone8"));
 #endif
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Runtime_exec)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_lang_Runtime_waitFor(JNIEnv* e, jclass, jlong pid, jlong tid)
@@ -493,6 +496,7 @@ extern "C" JNIEXPORT jint JNICALL
   return -1;
 #endif
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Runtime_waitFor)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_lang_Runtime_kill(JNIEnv* e UNUSED, jclass, jlong pid)
@@ -503,6 +507,7 @@ extern "C" JNIEXPORT void JNICALL
   throwNew(e, "java/io/Exception", strdup("Not supported on WinRT/WinPhone8"));
 #endif
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Runtime_kill)
 
 Locale getLocale()
 {
@@ -776,6 +781,7 @@ extern "C" JNIEXPORT void JNICALL
   fcntl(out[1], F_SETFD, FD_CLOEXEC);
   fcntl(err[0], F_SETFD, FD_CLOEXEC);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Runtime_exec)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_lang_Runtime_waitFor(JNIEnv*, jclass, jlong pid, jlong)
@@ -796,12 +802,14 @@ extern "C" JNIEXPORT jint JNICALL
 
   return exitCode;
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Runtime_waitFor)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_lang_Runtime_kill(JNIEnv*, jclass, jlong pid)
 {
   kill((pid_t)pid, SIGTERM);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Runtime_kill)
 
 Locale getLocale()
 {
@@ -1002,6 +1010,7 @@ extern "C" JNIEXPORT jobjectArray JNICALL
 
   return array;
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_System_getNativeProperties)
 
 // System.getEnvironment() implementation
 // TODO: For Win32, replace usage of deprecated _environ and add Unicode
@@ -1037,6 +1046,7 @@ extern "C" JNIEXPORT jobjectArray JNICALL
 
   return stringArray;
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_System_getEnvironment)
 
 extern "C" JNIEXPORT jlong JNICALL
     Java_java_lang_System_currentTimeMillis(JNIEnv*, jclass)
@@ -1056,6 +1066,7 @@ extern "C" JNIEXPORT jlong JNICALL
          + (static_cast<jlong>(tv.tv_usec) / 1000);
 #endif
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_System_currentTimeMillis)
 
 extern "C" JNIEXPORT jstring JNICALL
     Java_java_lang_System_doMapLibraryName(JNIEnv* e, jclass, jstring name)
@@ -1073,18 +1084,21 @@ extern "C" JNIEXPORT jstring JNICALL
   }
   return r;
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_System_doMapLibraryName)
 
 extern "C" JNIEXPORT jboolean JNICALL
     Java_java_lang_Double_isInfinite(JNIEnv*, jclass, jdouble val)
 {
   return !isfinite(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Double_isInfinite)
 
 extern "C" JNIEXPORT jboolean JNICALL
     Java_java_lang_Double_isNaN(JNIEnv*, jclass, jdouble val)
 {
   return isnan(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Double_isNaN)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Double_doubleFromString(JNIEnv* e,
@@ -1107,18 +1121,21 @@ extern "C" JNIEXPORT jdouble JNICALL
   e->SetIntArrayRegion(numDoublesRead, 0, 1, &numRead);
   return d;
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Double_doubleFromString)
 
 extern "C" JNIEXPORT jboolean JNICALL
     Java_java_lang_Float_isInfinite(JNIEnv*, jclass, jfloat val)
 {
   return !isfinite(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Float_isInfinite)
 
 extern "C" JNIEXPORT jboolean JNICALL
     Java_java_lang_Float_isNaN(JNIEnv*, jclass, jfloat val)
 {
   return isnan(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Float_isNaN)
 
 extern "C" JNIEXPORT jfloat JNICALL
     Java_java_lang_Float_floatFromString(JNIEnv* e,
@@ -1141,102 +1158,119 @@ extern "C" JNIEXPORT jfloat JNICALL
   e->SetIntArrayRegion(numFloatsRead, 0, 1, &numRead);
   return f;
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Float_floatFromString)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Math_sin(JNIEnv*, jclass, jdouble val)
 {
   return sin(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Math_sin)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Math_cos(JNIEnv*, jclass, jdouble val)
 {
   return cos(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Math_cos)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Math_tan(JNIEnv*, jclass, jdouble val)
 {
   return tan(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Math_tan)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Math_asin(JNIEnv*, jclass, jdouble val)
 {
   return asin(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Math_tan)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Math_acos(JNIEnv*, jclass, jdouble val)
 {
   return acos(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Math_acos)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Math_atan(JNIEnv*, jclass, jdouble val)
 {
   return atan(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Math_atan)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Math_atan2(JNIEnv*, jclass, jdouble y, jdouble x)
 {
   return atan2(y, x);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Math_atan2)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Math_sinh(JNIEnv*, jclass, jdouble val)
 {
   return sinh(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Math_sinh)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Math_cosh(JNIEnv*, jclass, jdouble val)
 {
   return cosh(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Math_cosh)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Math_tanh(JNIEnv*, jclass, jdouble val)
 {
   return tanh(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Math_tanh)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Math_sqrt(JNIEnv*, jclass, jdouble val)
 {
   return sqrt(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Math_sqrt)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Math_pow(JNIEnv*, jclass, jdouble val, jdouble exp)
 {
   return pow(val, exp);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Math_pow)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Math_log(JNIEnv*, jclass, jdouble val)
 {
   return log(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Math_log)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Math_floor(JNIEnv*, jclass, jdouble val)
 {
   return floor(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Math_floor)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Math_ceil(JNIEnv*, jclass, jdouble val)
 {
   return ceil(val);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Math_ceil)
 
 extern "C" JNIEXPORT jdouble JNICALL
     Java_java_lang_Math_exp(JNIEnv*, jclass, jdouble exp)
 {
   return pow(M_E, exp);
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Math_exp)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_lang_Double_fillBufferWithDouble(JNIEnv* e,
@@ -1251,3 +1285,4 @@ extern "C" JNIEXPORT jint JNICALL
   e->ReleaseByteArrayElements(buffer, buf, 0);
   return count;
 }
+JNI_SUPPORT_REGISTER(Java_java_lang_Double_fillBufferWithDouble)

@@ -13,18 +13,22 @@
 #include "sockets.h"
 #include "jni-util.h"
 
+#include <jni_support.h>
+
 using namespace avian::classpath::sockets;
 
 extern "C" JNIEXPORT void JNICALL Java_java_net_Socket_init(JNIEnv* e, jclass)
 {
   init(e);
 }
+JNI_SUPPORT_REGISTER(Java_java_net_Socket_init)
 
 extern "C" JNIEXPORT SOCKET JNICALL
     Java_java_net_Socket_create(JNIEnv* e, jclass)
 {
   return create(e);
 }
+JNI_SUPPORT_REGISTER(Java_java_net_Socket_create)
 
 extern "C" JNIEXPORT void JNICALL Java_java_net_Socket_connect(JNIEnv* e,
                                                                jclass,
@@ -34,6 +38,7 @@ extern "C" JNIEXPORT void JNICALL Java_java_net_Socket_connect(JNIEnv* e,
 {
   connect(e, static_cast<SOCKET>(sock), addr, port);
 }
+JNI_SUPPORT_REGISTER(Java_java_net_Socket_connect)
 
 extern "C" JNIEXPORT void JNICALL Java_java_net_Socket_bind(JNIEnv* e,
                                                             jclass,
@@ -43,30 +48,35 @@ extern "C" JNIEXPORT void JNICALL Java_java_net_Socket_bind(JNIEnv* e,
 {
   bind(e, static_cast<SOCKET>(sock), addr, port);
 }
+JNI_SUPPORT_REGISTER(Java_java_net_Socket_bind)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_net_Socket_abort(JNIEnv* e, jclass, jlong sock)
 {
   abort(e, static_cast<SOCKET>(sock));
 }
+JNI_SUPPORT_REGISTER(Java_java_net_Socket_abort)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_net_Socket_close(JNIEnv* e, jclass, jlong sock)
 {
   close(e, static_cast<SOCKET>(sock));
 }
+JNI_SUPPORT_REGISTER(Java_java_net_Socket_close)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_net_Socket_closeOutput(JNIEnv* e, jclass, jlong sock)
 {
   close_output(e, static_cast<SOCKET>(sock));
 }
+JNI_SUPPORT_REGISTER(Java_java_net_Socket_closeOutput)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_net_Socket_closeInput(JNIEnv* e, jclass, jlong sock)
 {
   close_input(e, static_cast<SOCKET>(sock));
 }
+JNI_SUPPORT_REGISTER(Java_java_net_Socket_closeInput)
 
 extern "C" JNIEXPORT void JNICALL
     Avian_java_net_Socket_send(vm::Thread* t, vm::object, uintptr_t* arguments)
@@ -79,6 +89,7 @@ extern "C" JNIEXPORT void JNICALL
   char* buffer = reinterpret_cast<char*>(&buffer_obj->body()[start_pos]);
   avian::classpath::sockets::send((JNIEnv*)t, s, buffer, count);
 }
+JNI_SUPPORT_REGISTER(Avian_java_net_Socket_send)
 
 extern "C" JNIEXPORT int64_t JNICALL
     Avian_java_net_Socket_recv(vm::Thread* t, vm::object, uintptr_t* arguments)
@@ -91,6 +102,7 @@ extern "C" JNIEXPORT int64_t JNICALL
   char* buffer = reinterpret_cast<char*>(&buffer_obj->body()[start_pos]);
   return avian::classpath::sockets::recv((JNIEnv*)t, s, buffer, count);
 }
+JNI_SUPPORT_REGISTER(Avian_java_net_Socket_recv)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_net_InetAddress_ipv4AddressForName(JNIEnv* e,
@@ -139,3 +151,4 @@ extern "C" JNIEXPORT jint JNICALL
     return 0;
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_net_InetAddress_ipv4AddressForName)

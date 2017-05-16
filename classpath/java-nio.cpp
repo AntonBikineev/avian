@@ -15,6 +15,7 @@
 
 #include "jni.h"
 #include "jni-util.h"
+#include <jni_support.h>
 
 #ifdef PLATFORM_WINDOWS
 #include <winsock2.h>
@@ -47,10 +48,12 @@
 typedef int socklen_t;
 #endif
 
+#if 0
 inline void* operator new(size_t, void* p) throw()
 {
   return p;
 }
+#endif
 
 namespace {
 
@@ -380,6 +383,7 @@ extern "C" JNIEXPORT jint JNICALL
 {
   return ::doAccept(e, socket);
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_ServerSocketChannel_natDoAccept)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_nio_channels_ServerSocketChannel_natDoListen(JNIEnv* e,
@@ -397,6 +401,7 @@ extern "C" JNIEXPORT void JNICALL
 
   ::doListen(e, socket);
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_ServerSocketChannel_natDoListen)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_nio_channels_SocketChannel_bind(JNIEnv* e,
@@ -410,6 +415,7 @@ extern "C" JNIEXPORT void JNICALL
 
   ::doBind(e, socket, &address);
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketChannel_bind)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_nio_channels_DatagramChannel_bind(JNIEnv* e,
@@ -420,6 +426,7 @@ extern "C" JNIEXPORT void JNICALL
 {
   Java_java_nio_channels_SocketChannel_bind(e, c, socket, host, port);
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_DatagramChannel_bind)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_nio_channels_SocketChannel_configureBlocking(JNIEnv* e,
@@ -429,6 +436,7 @@ extern "C" JNIEXPORT void JNICALL
 {
   setBlocking(e, socket, blocking);
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketChannel_configureBlocking)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_nio_channels_DatagramChannel_configureBlocking(JNIEnv* e,
@@ -439,6 +447,7 @@ extern "C" JNIEXPORT void JNICALL
   return Java_java_nio_channels_SocketChannel_configureBlocking(
       e, c, socket, blocking);
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_DatagramChannel_configureBlocking)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_nio_channels_SocketChannel_natSetTcpNoDelay(JNIEnv* e,
@@ -448,6 +457,7 @@ extern "C" JNIEXPORT void JNICALL
 {
   setTcpNoDelay(e, socket, on);
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketChannel_natSetTcpNoDelay)
 
 extern "C" JNIEXPORT jboolean JNICALL
     Java_java_nio_channels_SocketChannel_natDoConnect(JNIEnv* e,
@@ -461,18 +471,21 @@ extern "C" JNIEXPORT jboolean JNICALL
 
   return ::doConnect(e, socket, &address);
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketChannel_natDoConnect)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_nio_channels_SocketChannel_makeSocket(JNIEnv* e, jclass)
 {
   return makeSocket(e);
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketChannel_makeSocket)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_nio_channels_DatagramChannel_makeSocket(JNIEnv* e, jclass)
 {
   return makeSocket(e, SOCK_DGRAM, IPPROTO_UDP);
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_DatagramChannel_makeSocket)
 
 extern "C" JNIEXPORT jboolean JNICALL
     Java_java_nio_channels_DatagramChannel_connect(JNIEnv* e,
@@ -486,6 +499,7 @@ extern "C" JNIEXPORT jboolean JNICALL
 
   return ::doConnect(e, socket, &address);
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_DatagramChannel_connect)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_nio_channels_SocketChannel_natFinishConnect(JNIEnv* e,
@@ -494,6 +508,7 @@ extern "C" JNIEXPORT void JNICALL
 {
   doFinishConnect(e, socket);
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketChannel_natFinishConnect)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_nio_channels_SocketChannel_natRead(JNIEnv* e,
@@ -537,6 +552,7 @@ extern "C" JNIEXPORT jint JNICALL
   }
   return r;
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketChannel_natRead)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_nio_channels_DatagramChannel_receive(JNIEnv* e,
@@ -589,6 +605,7 @@ extern "C" JNIEXPORT jint JNICALL
 
   return r;
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_DatagramChannel_receive)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_nio_channels_SocketChannel_natWrite(JNIEnv* e,
@@ -629,6 +646,7 @@ extern "C" JNIEXPORT jint JNICALL
   }
   return r;
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketChannel_natWrite)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_nio_channels_DatagramChannel_write(JNIEnv* e,
@@ -642,6 +660,7 @@ extern "C" JNIEXPORT jint JNICALL
   return Java_java_nio_channels_SocketChannel_natWrite(
       e, c, socket, buffer, offset, length, blocking);
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_DatagramChannel_write)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_nio_channels_DatagramChannel_send(JNIEnv* e,
@@ -687,6 +706,7 @@ extern "C" JNIEXPORT jint JNICALL
   }
   return r;
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_DatagramChannel_send)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_nio_channels_SocketChannel_natThrowWriteError(JNIEnv* e,
@@ -703,6 +723,7 @@ extern "C" JNIEXPORT void JNICALL
     throwIOException(e, socketErrorString(e, error));
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketChannel_natThrowWriteError)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_nio_channels_SocketChannel_natCloseSocket(JNIEnv*,
@@ -711,12 +732,14 @@ extern "C" JNIEXPORT void JNICALL
 {
   doClose(socket);
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketChannel_natCloseSocket)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_nio_channels_DatagramChannel_close(JNIEnv*, jclass, jint socket)
 {
   doClose(socket);
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_DatagramChannel_close)
 
 namespace {
 
@@ -888,6 +911,7 @@ extern "C" JNIEXPORT jlong JNICALL
   throwNew(e, "java/lang/OutOfMemoryError", 0);
   return 0;
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketSelector_natInit)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_nio_channels_SocketSelector_natWakeup(JNIEnv* e,
@@ -903,6 +927,7 @@ extern "C" JNIEXPORT void JNICALL
     }
   }
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketSelector_natWakeup)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_nio_channels_SocketSelector_natClose(JNIEnv*, jclass, jlong state)
@@ -911,6 +936,7 @@ extern "C" JNIEXPORT void JNICALL
   s->control.dispose();
   free(s);
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketSelector_natClose)
 
 extern "C" JNIEXPORT void JNICALL
     Java_java_nio_channels_SocketSelector_natSelectClearAll(JNIEnv*,
@@ -923,6 +949,7 @@ extern "C" JNIEXPORT void JNICALL
   FD_CLR(static_cast<unsigned>(socket), &(s->write));
   FD_CLR(static_cast<unsigned>(socket), &(s->except));
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketSelector_natSelectClearAll)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_nio_channels_SocketSelector_natSelectUpdateInterestSet(
@@ -954,6 +981,7 @@ extern "C" JNIEXPORT jint JNICALL
   }
   return max;
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketSelector_natSelectUpdateInterestSet)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_nio_channels_SocketSelector_natDoSocketSelect(JNIEnv* e,
@@ -1050,6 +1078,7 @@ extern "C" JNIEXPORT jint JNICALL
 
   return r;
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketSelector_natDoSocketSelect)
 
 extern "C" JNIEXPORT jint JNICALL
     Java_java_nio_channels_SocketSelector_natUpdateReadySet(JNIEnv*,
@@ -1083,6 +1112,7 @@ extern "C" JNIEXPORT jint JNICALL
 
   return ready;
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_channels_SocketSelector_natUpdateReadySet)
 
 extern "C" JNIEXPORT jboolean JNICALL
     Java_java_nio_ByteOrder_isNativeBigEndian(JNIEnv*, jclass)
@@ -1096,3 +1126,4 @@ extern "C" JNIEXPORT jboolean JNICALL
     return JNI_TRUE;
   return JNI_FALSE;
 }
+JNI_SUPPORT_REGISTER(Java_java_nio_ByteOrder_isNativeBigEndian)

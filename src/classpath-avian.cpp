@@ -14,6 +14,8 @@
 
 #include <avian/util/runtime-array.h>
 
+#include <jni_support.h>
+
 using namespace vm;
 
 namespace {
@@ -269,6 +271,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 
   return reinterpret_cast<int64_t>(make(t, c));
 }
+JNI_SUPPORT_REGISTER(Avian_java_io_ObjectInputStream_makeInstance);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_LegacyObjectInputStream_makeInstance(Thread* t,
@@ -277,6 +280,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 {
   return Avian_java_io_ObjectInputStream_makeInstance(t, NULL, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_avian_LegacyObjectInputStream_makeInstance);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_reflect_Field_getPrimitive(Thread* t,
@@ -286,6 +290,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   return getPrimitive(
       t, reinterpret_cast<object>(arguments[0]), arguments[1], arguments[2]);
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_reflect_Field_getPrimitive);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_reflect_Field_getObject(Thread*,
@@ -295,6 +300,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   return reinterpret_cast<int64_t>(fieldAtOffset<object>(
       reinterpret_cast<object>(arguments[0]), arguments[1]));
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_reflect_Field_getObject);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_java_lang_reflect_Field_setPrimitive(Thread* t,
@@ -310,6 +316,7 @@ extern "C" AVIAN_EXPORT void JNICALL
                arguments[2],
                value);
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_reflect_Field_setPrimitive);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_java_lang_reflect_Field_setObject(Thread* t,
@@ -321,6 +328,7 @@ extern "C" AVIAN_EXPORT void JNICALL
            arguments[1],
            reinterpret_cast<object>(arguments[2]));
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_reflect_Field_setObject);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_reflect_Constructor_make(Thread* t,
@@ -330,12 +338,14 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   return reinterpret_cast<int64_t>(
       make(t, cast<GcClass>(t, reinterpret_cast<object>(arguments[0]))));
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_reflect_Constructor_make);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_reflect_Method_getCaller(Thread* t, object, uintptr_t*)
 {
   return reinterpret_cast<int64_t>(getCaller(t, 2));
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_reflect_Method_getCaller);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_reflect_Method_invoke(Thread* t,
@@ -347,6 +357,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
                       reinterpret_cast<object>(arguments[1]),
                       reinterpret_cast<object>(arguments[2]));
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_reflect_Method_invoke);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_reflect_Array_getLength(Thread* t,
@@ -367,6 +378,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
     throwNew(t, GcNullPointerException::Type);
   }
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_reflect_Array_getLength);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_reflect_Array_makeObjectArray(Thread* t,
@@ -380,6 +392,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   return reinterpret_cast<int64_t>(
       makeObjectArray(t, elementType->vmClass(), length));
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_reflect_Array_makeObjectArray);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_Float_floatToRawIntBits(Thread*,
@@ -437,6 +450,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 
   return reinterpret_cast<int64_t>(array);
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_System_getVMProperties);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_java_lang_System_arraycopy(Thread* t, object, uintptr_t* arguments)
@@ -448,6 +462,7 @@ extern "C" AVIAN_EXPORT void JNICALL
             arguments[3],
             arguments[4]);
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_System_arraycopy);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_System_identityHashCode(Thread* t,
@@ -674,6 +689,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
     throwNew(t, GcNullPointerException::Type);
   }
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Classes_isAssignableFrom);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_Classes_getVMClass(Thread* t, object, uintptr_t* arguments)
@@ -681,6 +697,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   return reinterpret_cast<int64_t>(
       objectClass(t, reinterpret_cast<object>(arguments[0])));
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Classes_getVMClass);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_Classes_makeMethod(Thread* t, object, uintptr_t* arguments)
@@ -690,3 +707,4 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
                  cast<GcJclass>(t, reinterpret_cast<object>(arguments[0])),
                  arguments[1]));
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Classes_makeMethod);

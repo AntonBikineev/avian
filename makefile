@@ -2145,7 +2145,7 @@ endif
 ifneq ($(platform),windows)
 define link-executable
 	@echo linking $(@)
-	$(ld) $(^) $(rdynamic) $(lflags) $(classpath-lflags) $(bootimage-lflags) \
+	$(ld) $(^) $(rdynamic) $(lflags) -lstdc++ $(classpath-lflags) $(bootimage-lflags) \
 		-o $(@)
 endef
 else
@@ -2256,7 +2256,7 @@ ifdef mt
 	$(mt) -nologo -manifest $(@).manifest -outputresource:"$(@);1"
 endif
 else
-	$(ld) $(driver-dynamic-objects) -L$(build) -ljvm $(lflags) $(no-lto) $(rpath) -o $(@)
+	$(ld) $(driver-dynamic-objects) -L$(build) -ljvm $(lflags) $(no-lto) $(rpath) -o $(@) -lstdc++
 endif
 	$(strip) $(strip-all) $(@)
 
