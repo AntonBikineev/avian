@@ -15,6 +15,8 @@
 
 #include <avian/util/runtime-array.h>
 
+#include <jni_support.h>
+
 using namespace vm;
 
 namespace {
@@ -112,6 +114,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   return reinterpret_cast<intptr_t>(
       cast<GcJclass>(t, reinterpret_cast<object>(arguments[0]))->vmClass());
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Classes_toVMClass);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_Classes_toVMMethod(Thread* t, object, uintptr_t* arguments)
@@ -119,6 +122,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   return reinterpret_cast<intptr_t>(t->m->classpath->getVMMethod(
       t, cast<GcJmethod>(t, reinterpret_cast<object>(arguments[0]))));
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Classes_toVMMethod);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_avian_Classes_initialize(Thread* t, object, uintptr_t* arguments)
@@ -127,18 +131,21 @@ extern "C" AVIAN_EXPORT void JNICALL
 
   initClass(t, this_);
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Classes_initialize);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_avian_Classes_acquireClassLock(Thread* t, object, uintptr_t*)
 {
   acquire(t, t->m->classLock);
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Classes_acquireClassLock);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_avian_Classes_releaseClassLock(Thread* t, object, uintptr_t*)
 {
   release(t, t->m->classLock);
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Classes_releaseClassLock);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_Classes_resolveVMClass(Thread* t, object, uintptr_t* arguments)
@@ -151,6 +158,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   return reinterpret_cast<int64_t>(
       resolveClass(t, loader, spec, true, GcClassNotFoundException::Type));
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Classes_resolveVMClass);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_Classes_defineVMClass(Thread* t, object, uintptr_t* arguments)
@@ -170,6 +178,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 
   return reinterpret_cast<int64_t>(defineClass(t, loader, buffer, length));
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Classes_defineVMClass);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_Classes_makeString(Thread* t, object, uintptr_t* arguments)
@@ -182,12 +191,14 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   return reinterpret_cast<int64_t>(
       t->m->classpath->makeString(t, array, offset, length));
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Classes_makeString);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_SystemClassLoader_appLoader(Thread* t, object, uintptr_t*)
 {
   return reinterpret_cast<int64_t>(roots(t)->appLoader());
 }
+JNI_SUPPORT_REGISTER(Avian_avian_SystemClassLoader_appLoader);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_SystemClassLoader_findLoadedVMClass(Thread* t,
@@ -200,6 +211,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 
   return search(t, loader, name, findLoadedClass, true);
 }
+JNI_SUPPORT_REGISTER(Avian_avian_SystemClassLoader_findLoadedVMClass);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_SystemClassLoader_vmClass(Thread* t,
@@ -209,6 +221,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   return reinterpret_cast<int64_t>(
       cast<GcJclass>(t, reinterpret_cast<object>(arguments[0]))->vmClass());
 }
+JNI_SUPPORT_REGISTER(Avian_avian_SystemClassLoader_vmClass);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_SystemClassLoader_findVMClass(Thread* t,
@@ -221,6 +234,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 
   return search(t, loader, name, resolveSystemClassThrow, true);
 }
+JNI_SUPPORT_REGISTER(Avian_avian_SystemClassLoader_findVMClass);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_SystemClassLoader_resourceURLPrefix(Thread* t,
@@ -244,6 +258,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
     throwNew(t, GcNullPointerException::Type);
   }
 }
+JNI_SUPPORT_REGISTER(Avian_avian_SystemClassLoader_resourceURLPrefix);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_SystemClassLoader_00024ResourceEnumeration_nextResourceURLPrefix(
@@ -272,6 +287,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
     throwNew(t, GcNullPointerException::Type);
   }
 }
+JNI_SUPPORT_REGISTER(Avian_avian_SystemClassLoader_00024ResourceEnumeration_nextResourceURLPrefix);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_SystemClassLoader_getClass(Thread* t,
@@ -281,6 +297,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   return reinterpret_cast<int64_t>(
       getJClass(t, cast<GcClass>(t, reinterpret_cast<object>(arguments[0]))));
 }
+JNI_SUPPORT_REGISTER(Avian_avian_SystemClassLoader_getClass);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_SystemClassLoader_getPackageSource(Thread* t,
@@ -312,6 +329,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
     return 0;
   }
 }
+JNI_SUPPORT_REGISTER(Avian_avian_SystemClassLoader_getPackageSource);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_avian_Machine_dumpHeap(Thread* t, object, uintptr_t* arguments)
@@ -336,6 +354,7 @@ extern "C" AVIAN_EXPORT void JNICALL
              RUNTIME_ARRAY_BODY(n));
   }
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Machine_dumpHeap);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_Machine_tryNative(Thread* t, object, uintptr_t* arguments)
@@ -350,6 +369,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 
   return reinterpret_cast<int64_t (*)(int64_t)>(function)(argument);
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Machine_tryNative);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_java_lang_Runtime_exit(Thread* t, object, uintptr_t* arguments)
@@ -358,24 +378,28 @@ extern "C" AVIAN_EXPORT void JNICALL
 
   t->m->system->exit(arguments[1]);
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_Runtime_exit);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_Runtime_freeMemory(Thread* t, object, uintptr_t*)
 {
   return t->m->heap->remaining();
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_Runtime_freeMemory);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_Runtime_totalMemory(Thread* t, object, uintptr_t*)
 {
   return t->m->heap->limit();
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_Runtime_totalMemory);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_Runtime_maxMemory(Thread* t, object, uintptr_t*)
 {
   return t->m->heap->limit();
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_Runtime_maxMemory);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_avianvmresource_Handler_00024ResourceInputStream_getContentLength(
@@ -402,6 +426,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   }
   return -1;
 }
+JNI_SUPPORT_REGISTER(Avian_avian_avianvmresource_Handler_00024ResourceInputStream_getContentLength);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_avianvmresource_Handler_00024ResourceInputStream_open(
@@ -425,6 +450,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
     throwNew(t, GcNullPointerException::Type);
   }
 }
+JNI_SUPPORT_REGISTER(Avian_avian_avianvmresource_Handler_00024ResourceInputStream_open);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_avianvmresource_Handler_00024ResourceInputStream_available(
@@ -439,6 +465,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   System::Region* region = reinterpret_cast<System::Region*>(peer);
   return static_cast<jint>(region->length()) - position;
 }
+JNI_SUPPORT_REGISTER(Avian_avian_avianvmresource_Handler_00024ResourceInputStream_available);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_avianvmresource_Handler_00024ResourceInputStream_read__JI(
@@ -457,6 +484,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
     return region->start()[position];
   }
 }
+JNI_SUPPORT_REGISTER(Avian_avian_avianvmresource_Handler_00024ResourceInputStream_read__JI);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_avianvmresource_Handler_00024ResourceInputStream_read__JI_3BII(
@@ -486,6 +514,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
     return length;
   }
 }
+JNI_SUPPORT_REGISTER(Avian_avian_avianvmresource_Handler_00024ResourceInputStream_read__JI_3BII);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_avian_avianvmresource_Handler_00024ResourceInputStream_close(
@@ -497,6 +526,7 @@ extern "C" AVIAN_EXPORT void JNICALL
   memcpy(&peer, arguments, 8);
   reinterpret_cast<System::Region*>(peer)->dispose();
 }
+JNI_SUPPORT_REGISTER(Avian_avian_avianvmresource_Handler_00024ResourceInputStream_close);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_avian_Continuations_callWithCurrentContinuation(Thread* t,
@@ -508,6 +538,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 
   abort(t);
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Continuations_callWithCurrentContinuation);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_avian_Continuations_dynamicWind2(Thread* t,
@@ -521,6 +552,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 
   abort(t);
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Continuations_dynamicWind2);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_avian_Continuations_00024Continuation_handleResult(
@@ -535,6 +567,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 
   abort(t);
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Continuations_00024Continuation_handleResult);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_avian_Continuations_00024Continuation_handleException(
@@ -549,6 +582,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 
   abort(t);
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Continuations_00024Continuation_handleException);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_Singleton_getObject(Thread* t, object, uintptr_t* arguments)
@@ -558,6 +592,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
       cast<GcSingleton>(t, reinterpret_cast<object>(arguments[0])),
       arguments[1]));
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Singleton_getObject);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_Singleton_getInt(Thread* t, object, uintptr_t* arguments)
@@ -567,6 +602,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
       cast<GcSingleton>(t, reinterpret_cast<object>(arguments[0])),
       arguments[1]);
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Singleton_getInt);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_Singleton_getLong(Thread* t, object, uintptr_t* arguments)
@@ -580,6 +616,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
          8);
   return v;
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Singleton_getLong);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_allocateMemory(Thread* t,
@@ -595,6 +632,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
     throwNew(t, GcOutOfMemoryError::Type);
   }
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_allocateMemory);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_freeMemory(Thread*, object, uintptr_t* arguments)
@@ -605,6 +643,7 @@ extern "C" AVIAN_EXPORT void JNICALL
     free(reinterpret_cast<void*>(p));
   }
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_freeMemory);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_setMemory(Thread* t, object, uintptr_t* arguments)
@@ -626,6 +665,7 @@ extern "C" AVIAN_EXPORT void JNICALL
     memset(reinterpret_cast<int8_t*>(offset), value, count);
   }
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_setMemory);
 
 // NB: The following primitive get/put methods are only used by the
 // interpreter.  The JIT/AOT compiler implements them as intrinsics,
@@ -640,6 +680,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 
   *reinterpret_cast<int8_t*>(p) = v;
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putByte__JB);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putShort__JS(Thread*, object, uintptr_t* arguments)
@@ -650,6 +691,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 
   *reinterpret_cast<int16_t*>(p) = v;
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putShort__JS);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putChar__JC(Thread* t,
@@ -658,6 +700,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 {
   Avian_sun_misc_Unsafe_putShort__JS(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putChar__JC);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putInt__JI(Thread*, object, uintptr_t* arguments)
@@ -668,6 +711,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 
   *reinterpret_cast<int32_t*>(p) = v;
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putInt__JI);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putFloat__JF(Thread* t,
@@ -676,6 +720,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 {
   Avian_sun_misc_Unsafe_putInt__JI(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putFloat__JF);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putLong__JJ(Thread*, object, uintptr_t* arguments)
@@ -687,6 +732,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 
   *reinterpret_cast<int64_t*>(p) = v;
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putLong__JJ);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putDouble__JD(Thread* t,
@@ -695,6 +741,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 {
   Avian_sun_misc_Unsafe_putLong__JJ(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putDouble__JD);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putAddress__JJ(Thread*, object, uintptr_t* arguments)
@@ -706,6 +753,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 
   *reinterpret_cast<intptr_t*>(p) = v;
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putAddress__JJ);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getByte__J(Thread*, object, uintptr_t* arguments)
@@ -715,6 +763,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 
   return *reinterpret_cast<int8_t*>(p);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getByte__J);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getShort__J(Thread*, object, uintptr_t* arguments)
@@ -724,6 +773,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 
   return *reinterpret_cast<int16_t*>(p);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getShort__J);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getChar__J(Thread* t,
@@ -732,6 +782,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 {
   return Avian_sun_misc_Unsafe_getShort__J(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getChar__J);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getInt__J(Thread*, object, uintptr_t* arguments)
@@ -741,6 +792,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 
   return *reinterpret_cast<int32_t*>(p);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getInt__J);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getFloat__J(Thread* t,
@@ -749,6 +801,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 {
   return Avian_sun_misc_Unsafe_getInt__J(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getFloat__J);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getLong__J(Thread*, object, uintptr_t* arguments)
@@ -758,6 +811,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 
   return *reinterpret_cast<int64_t*>(p);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getLong__J);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getDouble__J(Thread* t,
@@ -766,6 +820,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 {
   return Avian_sun_misc_Unsafe_getLong__J(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getDouble__J);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getAddress__J(Thread*, object, uintptr_t* arguments)
@@ -775,6 +830,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 
   return *reinterpret_cast<intptr_t*>(p);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getAddress__J);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_copyMemory(Thread* t, object, uintptr_t* arguments)
@@ -801,12 +857,14 @@ extern "C" AVIAN_EXPORT void JNICALL
 
   memcpy(dst, src, count);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_copyMemory);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_arrayBaseOffset(Thread*, object, uintptr_t*)
 {
   return ArrayBody;
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_arrayBaseOffset);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_arrayIndexScale(Thread* t,
@@ -827,6 +885,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   else
     return BytesPerWord;
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_arrayIndexScale);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_nio_FixedArrayByteBuffer_allocateFixed(Thread* t,
@@ -849,6 +908,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 
   return reinterpret_cast<intptr_t>(array);
 }
+JNI_SUPPORT_REGISTER(Avian_java_nio_FixedArrayByteBuffer_allocateFixed);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getObject(Thread*, object, uintptr_t* arguments)
@@ -859,6 +919,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 
   return fieldAtOffset<uintptr_t>(o, offset);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getObject);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putObject(Thread* t, object, uintptr_t* arguments)
@@ -870,6 +931,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 
   setField(t, o, offset, reinterpret_cast<object>(value));
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putObject);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putObjectVolatile(Thread* t,
@@ -885,6 +947,7 @@ extern "C" AVIAN_EXPORT void JNICALL
   setField(t, o, offset, value);
   storeLoadMemoryBarrier();
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putObjectVolatile);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putOrderedObject(Thread* t,
@@ -893,6 +956,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 {
   Avian_sun_misc_Unsafe_putObjectVolatile(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putOrderedObject);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getObjectVolatile(Thread*,
@@ -907,6 +971,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   loadMemoryBarrier();
   return value;
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getObjectVolatile);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_compareAndSwapObject(Thread* t,
@@ -928,6 +993,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 
   return success;
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_compareAndSwapObject);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_compareAndSwapInt(Thread*,
@@ -943,6 +1009,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   return atomicCompareAndSwap32(
       &fieldAtOffset<uint32_t>(target, offset), expect, update);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_compareAndSwapInt);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_compareAndSwapLong(Thread* t UNUSED,
@@ -971,6 +1038,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   }
 #endif
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_compareAndSwapLong);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getLongVolatile(Thread* t,
@@ -1004,6 +1072,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 
   return result;
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getLongVolatile);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putLongVolatile(Thread* t,
@@ -1039,6 +1108,7 @@ extern "C" AVIAN_EXPORT void JNICALL
     storeLoadMemoryBarrier();
   }
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putLongVolatile);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putOrderedLong(Thread* t,
@@ -1049,6 +1119,7 @@ extern "C" AVIAN_EXPORT void JNICALL
   // putLongVolatile does
   Avian_sun_misc_Unsafe_putLongVolatile(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putOrderedLong);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_unpark(Thread* t, object, uintptr_t* arguments)
@@ -1060,6 +1131,7 @@ extern "C" AVIAN_EXPORT void JNICALL
   monitorNotify(t, cast<GcMonitor>(t, interruptLock(t, thread)));
   monitorRelease(t, cast<GcMonitor>(t, interruptLock(t, thread)));
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_unpark);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_park(Thread* t, object, uintptr_t* arguments)
@@ -1104,6 +1176,7 @@ extern "C" AVIAN_EXPORT void JNICALL
   t->javaThread->unparked() = false;
   monitorRelease(t, cast<GcMonitor>(t, interruptLock(t, t->javaThread)));
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_park);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putIntVolatile(Thread*, object, uintptr_t* arguments)
@@ -1117,6 +1190,7 @@ extern "C" AVIAN_EXPORT void JNICALL
   fieldAtOffset<int32_t>(o, offset) = value;
   storeLoadMemoryBarrier();
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putIntVolatile);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putOrderedInt(Thread* t,
@@ -1125,6 +1199,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 {
   Avian_sun_misc_Unsafe_putIntVolatile(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putOrderedInt);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getIntVolatile(Thread*, object, uintptr_t* arguments)
@@ -1137,6 +1212,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   loadMemoryBarrier();
   return result;
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getIntVolatile);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putByteVolatile(Thread*, object, uintptr_t* arguments)
@@ -1150,6 +1226,7 @@ extern "C" AVIAN_EXPORT void JNICALL
   fieldAtOffset<int8_t>(o, offset) = value;
   storeLoadMemoryBarrier();
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putByteVolatile);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getByteVolatile(Thread*, object, uintptr_t* arguments)
@@ -1162,6 +1239,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   loadMemoryBarrier();
   return result;
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getByteVolatile);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putBooleanVolatile(Thread* t,
@@ -1170,6 +1248,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 {
   Avian_sun_misc_Unsafe_putByteVolatile(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putBooleanVolatile);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getBooleanVolatile(Thread* t,
@@ -1178,6 +1257,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 {
   return Avian_sun_misc_Unsafe_getByteVolatile(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getBooleanVolatile);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putShortVolatile(Thread*,
@@ -1193,6 +1273,7 @@ extern "C" AVIAN_EXPORT void JNICALL
   fieldAtOffset<int16_t>(o, offset) = value;
   storeLoadMemoryBarrier();
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putShortVolatile);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getShortVolatile(Thread*,
@@ -1207,6 +1288,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   loadMemoryBarrier();
   return result;
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getShortVolatile);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putCharVolatile(Thread* t,
@@ -1215,6 +1297,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 {
   Avian_sun_misc_Unsafe_putShortVolatile(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putCharVolatile);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getCharVolatile(Thread* t,
@@ -1223,6 +1306,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 {
   return Avian_sun_misc_Unsafe_getShortVolatile(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getCharVolatile);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putFloatVolatile(Thread* t,
@@ -1231,6 +1315,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 {
   Avian_sun_misc_Unsafe_putIntVolatile(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putFloatVolatile);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getFloatVolatile(Thread* t,
@@ -1239,6 +1324,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 {
   return Avian_sun_misc_Unsafe_getIntVolatile(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getFloatVolatile);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_putDoubleVolatile(Thread* t,
@@ -1247,6 +1333,7 @@ extern "C" AVIAN_EXPORT void JNICALL
 {
   Avian_sun_misc_Unsafe_putLongVolatile(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_putDoubleVolatile);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_sun_misc_Unsafe_getDoubleVolatile(Thread* t,
@@ -1255,6 +1342,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 {
   return Avian_sun_misc_Unsafe_getLongVolatile(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_getDoubleVolatile);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_sun_misc_Unsafe_throwException(Thread* t,
@@ -1263,12 +1351,14 @@ extern "C" AVIAN_EXPORT void JNICALL
 {
   vm::throw_(t, cast<GcThrowable>(t, reinterpret_cast<object>(arguments[1])));
 }
+JNI_SUPPORT_REGISTER(Avian_sun_misc_Unsafe_throwException);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_avian_Classes_primitiveClass(Thread* t, object, uintptr_t* arguments)
 {
   return reinterpret_cast<int64_t>(primitiveClass(t, arguments[0]));
 }
+JNI_SUPPORT_REGISTER(Avian_avian_Classes_primitiveClass);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_Class_getEnclosingMethod(Thread* t,
@@ -1306,6 +1396,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   }
   return 0;
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_Class_getEnclosingMethod);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_Class_getEnclosingClass(Thread* t,
@@ -1328,6 +1419,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   }
   return 0;
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_Class_getEnclosingClass);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_Class_getEnclosingConstructor(Thread* t,
@@ -1336,6 +1428,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 {
   return Avian_java_lang_Class_getEnclosingMethod(t, method, arguments);
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_Class_getEnclosingConstructor);
 
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
@@ -1349,6 +1442,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
 
   return reinterpret_cast<int64_t>(s);
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_Object_toString);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_Object_getVMClass(Thread* t, object, uintptr_t* arguments)
@@ -1356,6 +1450,7 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   return reinterpret_cast<int64_t>(
       objectClass(t, reinterpret_cast<object>(arguments[0])));
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_Object_getVMClass);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_java_lang_Object_wait(Thread* t, object, uintptr_t* arguments)
@@ -1366,24 +1461,28 @@ extern "C" AVIAN_EXPORT void JNICALL
 
   vm::wait(t, this_, milliseconds);
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_Object_wait);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_java_lang_Object_notify(Thread* t, object, uintptr_t* arguments)
 {
   notify(t, reinterpret_cast<object>(arguments[0]));
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_Object_notify);
 
 extern "C" AVIAN_EXPORT void JNICALL
     Avian_java_lang_Object_notifyAll(Thread* t, object, uintptr_t* arguments)
 {
   notifyAll(t, reinterpret_cast<object>(arguments[0]));
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_Object_notifyAll);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_Object_hashCode(Thread* t, object, uintptr_t* arguments)
 {
   return objectHash(t, reinterpret_cast<object>(arguments[0]));
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_Object_hashCode);
 
 extern "C" AVIAN_EXPORT int64_t JNICALL
     Avian_java_lang_Object_clone(Thread* t, object, uintptr_t* arguments)
@@ -1391,3 +1490,4 @@ extern "C" AVIAN_EXPORT int64_t JNICALL
   return reinterpret_cast<int64_t>(
       clone(t, reinterpret_cast<object>(arguments[0])));
 }
+JNI_SUPPORT_REGISTER(Avian_java_lang_Object_clone);

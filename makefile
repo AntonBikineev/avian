@@ -454,10 +454,10 @@ strip-all = --strip-all
 
 rdynamic = -rdynamic
 
-cflags_debug = -O0 -g3
-cflags_debug_fast = -O0 -g3
-cflags_stress = -O0 -g3
-cflags_stress_major = -O0 -g3
+cflags_debug = -O0 -ggdb
+cflags_debug_fast = -O0 -ggdb
+cflags_stress = -O0 -ggdb
+cflags_stress_major = -O0 -ggdb
 ifeq ($(use-clang),true)
 	cflags_fast = -O3 -g3
 	cflags_small = -Oz -g3
@@ -501,7 +501,7 @@ converter-cflags = -D__STDC_CONSTANT_MACROS -std=c++0x -Iinclude/ -Isrc/ \
 
 cflags = $(build-cflags)
 
-common-lflags = -lm -lz
+common-lflags = -lm -lz -lstdc++
 
 ifeq ($(use-clang),true)
 	ifeq ($(build-kernel),darwin)

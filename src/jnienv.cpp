@@ -16,6 +16,8 @@
 
 #include <avian/util/runtime-array.h>
 
+#include <jni_support.h>
+
 using namespace vm;
 
 namespace {
@@ -3599,6 +3601,7 @@ extern "C" AVIAN_EXPORT jint JNICALL JNI_GetDefaultJavaVMInitArgs(void*)
 {
   return 0;
 }
+JNI_SUPPORT_REGISTER(JNI_GetDefaultJavaVMInitArgs);
 
 extern "C" AVIAN_EXPORT jint JNICALL
     JNI_GetCreatedJavaVMs(Machine**, jsize, jsize*)
@@ -3606,6 +3609,7 @@ extern "C" AVIAN_EXPORT jint JNICALL
   // todo
   return -1;
 }
+JNI_SUPPORT_REGISTER(JNI_GetCreatedJavaVMs);
 
 extern "C" AVIAN_EXPORT jint JNICALL
     JNI_CreateJavaVM(Machine** m, Thread** t, void* args)
@@ -3788,6 +3792,7 @@ extern "C" AVIAN_EXPORT jint JNICALL
 
   return run(*t, local::boot, 0) ? 0 : -1;
 }
+JNI_SUPPORT_REGISTER(JNI_CreateJavaVM);
 
 extern "C" AVIAN_EXPORT jstring JNICALL JVM_GetTemporaryDirectory(JNIEnv* e UNUSED)
 {
@@ -3795,15 +3800,18 @@ extern "C" AVIAN_EXPORT jstring JNICALL JVM_GetTemporaryDirectory(JNIEnv* e UNUS
   // This is used in newer builds of openjdk8, as a place to store statistics or something...
   abort();
 }
+JNI_SUPPORT_REGISTER(JVM_GetTemporaryDirectory);
 
 extern "C" AVIAN_EXPORT jboolean JNICALL JVM_KnownToNotExist(JNIEnv* e UNUSED, jobject loader UNUSED, jstring classname UNUSED)
 {
   // Unimplemented
   abort();
 }
+JNI_SUPPORT_REGISTER(JVM_KnownToNotExist);
 
 extern "C" AVIAN_EXPORT jintArray JNICALL JVM_GetResourceLookupCache(JNIEnv* e UNUSED, jobject loader UNUSED, jstring resourcename UNUSED)
 {
   // Unimplemented
   abort();
 }
+JNI_SUPPORT_REGISTER(JVM_GetResourceLookupCache);
